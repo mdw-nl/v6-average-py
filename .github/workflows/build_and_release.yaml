@@ -1,0 +1,40 @@
+on:
+  push:
+    # Pattern matched against refs/tags
+    tags:
+      - 'release/v*'
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  build-push-and-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract version
+        run: echo "VERSION_TAG=${GITHUB_REF#refs/tags/release/}" >> $GITHUB_ENV
+
+      - name: Log in to the Container registry
+        # Pinning docker/login-action to a stable commit hash
+        uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d
+
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        id: docker_build
+        # Pinning docker/build-push-action to a stable commit hash
+        uses: docker/build-push-action@4a13e500e55cf31b7a5d59a38ab2040ab0f42f56
+        with:
+          context: .
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.VERSION_TAG }}
+
+      - name: Print DigestID
+        run: |
+          echo 'Digest: ${{ steps.docker_build.outputs.digest }}'
