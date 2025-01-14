@@ -1,0 +1,76 @@
+{
+    "profiles": {
+        "run-server": {
+            "server": {
+                "compose": "server/docker-compose.yaml",
+                "service": "server-planets-dev"
+            },
+            "ui": {
+                "compose": "server/docker-compose.yaml",
+                "service": "ui-planets"
+            }
+        },
+        "run-node-mars": {
+            "server": {
+                "compose": "server/docker-compose.yaml",
+                "service": "server-planets-dev"
+            },
+            "ui": {
+                "compose": "server/docker-compose.yaml",
+                "service": "ui-planets"
+            },
+            "nodes": [
+                {
+                    "name": "mars",
+                    "config": "nodes/mars/mars.yaml",
+                    "options": {
+                        "attach": true
+                    }
+                }
+            ]
+        },
+        "run-all": {
+            "server": {
+                "compose": "server/docker-compose.yaml",
+                "service": "server-planets-dev"
+            },
+            "ui": {
+                "compose": "server/docker-compose.yaml",
+                "service": "ui-planets"
+            },
+            "nodes": [
+                {
+                    "name": "jupiter",
+                    "config": "nodes/jupiter/jupiter.yaml"
+                },
+                {
+                    "name": "mars",
+                    "config": "nodes/mars/mars.yaml"
+                },
+                {
+                    "name": "saturn",
+                    "config": "nodes/saturn/saturn.yaml"
+                }
+            ]
+        },
+        "debug-node-mars": {
+            "server": {
+                "compose": "server/docker-compose.yaml",
+                "service": "server-planets-dev"
+            },
+            "ui": {
+                "compose": "server/docker-compose.yaml",
+                "service": "ui-planets"
+            },
+            "nodes": [
+                {
+                    "name": "mars-debug",
+                    "config": "nodes/mars/mars-debug.yaml",
+                    "options": {
+                        "attach": true
+                    }
+                }
+            ]
+        }
+    }
+}
