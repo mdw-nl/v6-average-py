@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "name": "Debug: node mars algorithm",
+            "type": "debugpy",
+            "request": "attach",
+            "connect": {
+                "host": "127.0.66.10",
+                "port": 5678
+            },
+            "pathMappings": [
+                {
+                    "localRoot": "${workspaceFolder}",
+                    "remoteRoot": "/app"
+                }
+            ]
+        }
+    ]
+}
